@@ -23,8 +23,8 @@ services:
       lagoon.persistent: /home/sftpupload/upload/ # location where the persistent storage should be mounted
     environment:
       # change following keys based on your generated keys
-      SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----'
-      SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----'
+      SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME'
+      SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----CHANGEME'
     ports:
       - 2222:2222
     user: '111111111'
@@ -45,15 +45,15 @@ Add those keys to your `docker-compose.yml`
 ```
 environment:
     # change following keys based on your generated keys
-    SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----'
-    SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----'
+    SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME'
+    SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----CHANGEME'
 ```
 
 And to your `.lagoon.env.master`:
 
 ```
-SSH_HOST_ED25519_KEY="-----BEGIN OPENSSH PRIVATE KEY-----"
-SSH_HOST_RSA_KEY="-----BEGIN RSA PRIVATE KEY-----"
+SSH_HOST_ED25519_KEY="-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME"
+SSH_HOST_RSA_KEY="-----BEGIN RSA PRIVATE KEY-----CHANGEME"
 ```
 
 ### Change username and password
