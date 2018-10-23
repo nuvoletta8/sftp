@@ -1,6 +1,14 @@
 FROM amazeeio/commons as commons
 FROM alpine:3.7
 
+# User and Password creation
+# Edit those variables for creating the User and the password
+ENV SFTP_USER 'sftpupload'
+ENV SFTP_PASSWORD 'thispasswordneedstobechanged'
+# TODO: If the password is empty the password authentication will be disabled and an SSH key
+# will be loaded from the environment variable SFTP_PUBLICKEY
+# ENV SFTP_PUBLICKEY 'ssh-rsa...'
+
 # Copying commons files
 COPY --from=commons /lagoon /lagoon
 COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/
@@ -14,15 +22,6 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     mkdir -p /var/run/sftp && \
     rm -f /etc/ssh/ssh_host_*key*
 
-
-# User and Password creation
-# Edit those variables for creating the User and the password
-# TODO: If the password is empty the password authentication will be disabled and an SSH key
-# will be loaded from the environment variable SFTP_PUBLICKEY
-ENV SFTP_USER 'sftpupload'
-ENV SFTP_PASSWORD 'thispasswordneedstobechanged'
-# TODO: this needs to be fixed
-# ENV SFTP_PUBLICKEY 'ssh-rsa...'
 
 # workaround to not run the 10-passwd entrypoint
 RUN rm /lagoon/entrypoints/10-passwd.sh
