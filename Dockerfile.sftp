@@ -9,6 +9,9 @@ ENV SFTP_PASSWORD 'thispasswordneedstobechanged'
 # will be loaded from the environment variable SFTP_PUBLICKEY
 # ENV SFTP_PUBLICKEY 'ssh-rsa...'
 
+# Copy env files
+COPY .lagoon.env.* /
+
 # Copying commons files
 COPY --from=commons /lagoon /lagoon
 COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/
