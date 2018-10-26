@@ -49,7 +49,7 @@ environment:
     SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----CHANGEME'
 ```
 
-And to your `.lagoon.env.master`:
+And to your `.lagoon.env.ENVIRONMENTNAME`:
 
 ```
 SSH_HOST_ED25519_KEY="-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME"
@@ -58,7 +58,7 @@ SSH_HOST_RSA_KEY="-----BEGIN RSA PRIVATE KEY-----CHANGEME"
 
 ### Change username and password
 
-Change the Environment variables `SFTP_USER` and `SFTP_PASSWORD` in the Dockerfile.sftp
+Change the Environment variables `SFTP_USER` and `SFTP_PASSWORD` in the `Dockerfile.sftp`
 ```
 ENV SFTP_USER 'sftpupload'
 ENV SFTP_PASSWORD 'thispasswordneedstobechanged'
