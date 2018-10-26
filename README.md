@@ -26,7 +26,7 @@ services:
       SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME'
       SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----CHANGEME'
     ports:
-      - 2222:2222
+      - 2222
     user: '111111111'
 ```
 
