@@ -13,7 +13,6 @@ ENV SFTP_PASSWORD 'thispasswordneedstobechanged'
 COPY --from=commons /lagoon /lagoon
 COPY --from=commons /bin/fix-permissions /bin/ep /bin/docker-sleep /bin/
 COPY --from=commons /sbin/tini /sbin/
-# COPY --from=commons /home /home
 
 # Installing sftp and creating configuration directories
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
