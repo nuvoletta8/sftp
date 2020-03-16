@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-useradd --no-user-group $SFTP_USER
+useradd $SFTP_USER 
 mkdir -p /home/$SFTP_USER/.ssh
 touch /home/$SFTP_USER/.ssh/authorized_keys
 chmod 755 /home/$SFTP_USER
@@ -26,9 +26,11 @@ fi
 #     chmod 600 /home/$SFTP_USER/.ssh/
 # fi
 
-mkdir mkdir -p /home/$SFTP_USER/upload
+mkdir -p /home/$SFTP_USER/upload
 chmod 755 /etc/shadow
 chmod 777 /etc/passwd
 # chmod 700 /home/${SFTP_USER}/.ssh/authorized_keys
 # chmod 600 /home/${SFTP_USER}/.ssh/
-# chown -R ${SFTP_USER}:${SFTP_USER} /home/${SFTP_USER}/.ssh
+#chown -R ${SFTP_USER}:${SFTP_USER} /home/${SFTP_USER}/.ssh
+chown -R ${SFTP_USER}:${SFTP_USER} /home/${SFTP_USER}
+

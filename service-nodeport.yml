@@ -1,7 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sftp
+  labels:
+    app: sftp-server
+  name: sftp-server
 spec:
   ports:
     - name: 2222-tcp
@@ -10,7 +12,7 @@ spec:
       protocol: TCP
       targetPort: 2222
   selector:
-    service: sftp
+    deploymentconfig: sftp-server
   sessionAffinity: None
   type: NodePort
 status:

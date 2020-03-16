@@ -1,96 +1,52 @@
 # SFTP Container
-This container enables you to run SFTP on Openshift and is fully compatible with [Lagoon](http://github.com/amazeeio/lagoon)
+This container enables you to run SFTP on Openshift 
 
-There are a few caveats:
-  - The SFTP Container will run on a high port which you can't influence
-  - Passwordless Authentication is not yet implemented
-
-## Installation on an lagoon project
-
-### docker-compose.yml
-First we need to add the container to the docker-compose.yml
-
-```
-services:
-  sftp:
-    build:
-      context: .
-      dockerfile: Dockerfile.sftp
-    labels:
-      lagoon.type: sftp-persistent
-      lagoon.template: lagoon/sftp-persistent.yml
-      lagoon.persistent.name: nginx # mount the persistent storage of nginx into this container
-      lagoon.persistent: /home/sftpupload/upload/ # location where the persistent storage should be mounted
-    environment:
-      # change following keys based on your generated keys
-      SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME'
-      SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----CHANGEME'
-    ports:
-      - 2222
-    user: '111111111'
-```
-
-Also add following parts to your code:
-- Folder `sftp-container`
-- `Dockerfile.sftp`
-- Openshift Template `sftp-persistent.yml`
-- `.lagoon.env.{ENVIRONMENT}`
+## Installation 
 
 ### Generate Keys
 
-Generate the keys needed with `helpers/generatekeys.sh`
+Generate the keys needed with `helpers/generatekeys.sh` and put the keys on different files on /keys directory.
+I left 2 example file that are fine, but if you would to change the certificate, you can use that script to re-generate.
 
-Add those keys to your `docker-compose.yml`
+The script is made by https://github.com/amazeeio and you can find [here] (https://github.com/amazeeio/sftp) the originial project that i forked.
 
-```
-environment:
-    # change following keys based on your generated keys
-    SSH_HOST_ED25519_KEY: '-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME'
-    SSH_HOST_RSA_KEY: '-----BEGIN RSA PRIVATE KEY-----CHANGEME'
-```
-
-And to your `.lagoon.env.ENVIRONMENTNAME`:
-
-```
-SSH_HOST_ED25519_KEY="-----BEGIN OPENSSH PRIVATE KEY-----CHANGEME"
-SSH_HOST_RSA_KEY="-----BEGIN RSA PRIVATE KEY-----CHANGEME"
-```
 
 ### Change username and password
 
-Change the Environment variables `SFTP_USER` and `SFTP_PASSWORD` in the `Dockerfile.sftp`
+Change the Environment variables `SFTP_USER` and `SFTP_PASSWORD` in the `Dockerfile`
+
 ```
-ENV SFTP_USER 'sftpupload'
+ENV SFTP_USER 'sftp'
 ENV SFTP_PASSWORD 'thispasswordneedstobechanged'
 ```
 
 
 ### Build container
-After that you should be able to run `docker-compose build sftp` and sucessfully build the SFTP contianer.
+
+Create the image for your container, from the directory where the Dockerfile is located
+
+```
+$ sudo docker build -t my-sftp-server .
+```
+
+Upload the new images to the openshift internal registry
+
+```
+$ sudo docker login your.internal.registry
+$ sudo docker tag my-sftp-server your.internal.registry/your-desired-project/sftp-server
+$ sudo docker push your.internal.registry/your-desired-project/sftp-server
+```
+
+Now the image of your sftp-server is ready for deploy
+
+```
+$ oc login to-your-openshift
+$ oc new-app sftp-server
+```
 
 ### Open Openshift Nodeport
-In order to access the container from outside we need to open a port. Best ask your lagoon administrator to get this done for you.
 
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: sftp
-spec:
-  ports:
-    - name: 2222-tcp
-      nodePort: XXXXXX
-      port: 2222
-      protocol: TCP
-      targetPort: 2222
-  selector:
-    service: sftp
-  sessionAffinity: None
-  type: NodePort
-status:
-  loadBalancer: {}
-```
+To use the NodePort option, edit the default service created by the new-app, or delete ed recreate it using the service-nodeport.yml .
 
-**Insipration:** This work is inspired by the SFTP container of [atmoz/sftp](https://github.com/atmoz/sftp/). Thanks!
 
 
