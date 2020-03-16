@@ -8,7 +8,7 @@ This container enables you to run SFTP on Openshift
 Generate the keys needed with `helpers/generatekeys.sh` and put the keys on different files on /keys directory.
 I left 2 example file that are fine, but if you would to change the certificate, you can use that script to re-generate.
 
-The script is made by https://github.com/amazeeio and you can find [here] (https://github.com/amazeeio/sftp) the originial project that i forked.
+The script is made by https://github.com/amazeeio and you can find [here](https://github.com/amazeeio/sftp) the originial project that i forked.
 
 
 ### Change username and password
